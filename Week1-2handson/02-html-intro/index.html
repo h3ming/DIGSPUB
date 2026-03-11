@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 02: HTML Introduction
+      
+      This document demonstrates:
+      - Proper HTML structure and hierarchy
+      - Various element types and categories
+      - Attribute usage (id, class)
+      - Proper tag nesting
+    -->
+    <meta charset="UTF-8">
+    <title>HTML Introduction - Element Hierarchy</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <!--
+      The <div> element is a generic container.
+      We use 'class' to apply reusable styles and 'id' for unique identification.
+    -->
+    <div id="div_01" class="container">
+      
+      <!-- Main heading - typically one per page -->
+      <h1 id="mainTitle">Hello World!</h1>
+      
+      <!-- Subheading with both id and class attributes -->
+      <h3 id="welcome" class="siteContent">Welcome to my website</h3>
+      
+      <!--
+        Nested <div> elements demonstrate hierarchy.
+        Notice how each closing tag matches its opening tag.
+        Comments help track which tag is closing.
+      -->
+      <div id="div_02">
+        <div id="div_03">
+          <p>Hierarchy!</p>
+        </div><!-- div 03 closing -->
+      </div><!-- div 02 closing -->
+      
+      <!--
+        Paragraphs with different combinations of id and class.
+        - id: Must be unique on the page (used for JavaScript targeting)
+        - class: Can be reused across multiple elements (used for styling)
+      -->
+      <p id="firstPara" class="paragraphContent">
+        First paragraph. This has both an id and a class.
+      </p>
+      
+      <p id="secondPara" class="paragraphContent">
+        Second paragraph. Notice it shares the same class as the first.
+      </p>
+      
+      <p id="thirdPara">
+        Third paragraph. This only has an id, no class.
+      </p>
+      
+      <!--
+        EXERCISE: Add an unordered list below
+        
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+        </ul>
+      -->
+      
+      <!--
+        Different element categories demonstration
+      -->
+      <section id="moreExamples">
+        <h2>More HTML Elements</h2>
+        
+        <!-- Text-level semantics -->
+        <p>
+          You can use <strong>strong</strong> for importance,
+          <em>em</em> for emphasis,
+          and <code>code</code> for code snippets.
+        </p>
+        
+        <!-- A link (anchor) element -->
+        <p>
+          Visit the <a href="https://developer.mozilla.org">MDN Web Docs</a>
+          to learn more about HTML elements.
+        </p>
+        
+        <!-- An image (void element - no closing tag) -->
+        <!--
+          EXERCISE: Uncomment and add a real image URL:
+          <img src="YOUR_IMAGE_URL" alt="Description of image" width="200">
+        -->
+      </section>
+      
+    </div><!-- div 01 closing (container) -->
+    
+    <!--
+      Footer is a sectioning element typically at the bottom of the page
+    -->
+    <footer>
+      <p>© 2026 Web Development Course</p>
+    </footer>
+    
+  </body>
+</html>

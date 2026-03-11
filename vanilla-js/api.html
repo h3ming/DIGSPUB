@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Demos — Vanilla JS</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Leaflet CSS — loaded from CDN (Feature #9b) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">🧪 Svelte Sandbox</a>
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery &amp; Search</a>
+    <a href="forms.html">Forms &amp; Validation</a>
+    <a href="api.html" class="active">APIs</a>
+    <a href="comments.html">Comments</a>
+  </nav>
+
+  <main>
+    <h1>API Demos</h1>
+    <p>Feature 9: Calling external APIs — weather data and interactive maps.</p>
+
+
+    <!-- ═══ FEATURE #9a: Weather Widget ═══════════════════
+         Matches Svelte /weather exactly:
+           6 cities (same coords), Open-Meteo API, same params,
+           same display (city, temp, condition, wind — no humidity) -->
+    <h2>Weather Widget (Feature 9a — API Call)</h2>
+    <div class="demo-section">
+      <p>Calls the <strong>Open-Meteo API</strong> — free, no API key needed.</p>
+
+      <div class="form-group">
+        <label for="citySelect">Choose a city:</label>
+        <select id="citySelect">
+          <option value="41.88,-87.63">Chicago, IL</option>
+          <option value="40.71,-74.01">New York, NY</option>
+          <option value="34.05,-118.24">Los Angeles, CA</option>
+          <option value="51.51,-0.13">London, UK</option>
+          <option value="35.68,139.69">Tokyo, Japan</option>
+          <option value="-33.87,151.21">Sydney, Australia</option>
+        </select>
+      </div>
+      <button onclick="fetchWeather()">Get Weather</button>
+
+      <!-- Loading / weather display / error — each manually toggled.
+           Svelte: {#if loading}...{/if} {#if weather}...{/if} {#if error}...{/if}
+           Vanilla: classList.add/remove('hidden') on THREE separate elements. -->
+      <p id="weatherLoading" class="mt-1 hidden">⏳ Fetching weather data...</p>
+
+      <div id="weatherDisplay" class="weather-display mt-1 hidden">
+        <p class="condition" id="weatherCity"></p>
+        <p class="temp" id="weatherTemp"></p>
+        <p class="condition" id="weatherCondition"></p>
+        <p class="wind" id="weatherWind"></p>
+      </div>
+
+      <div id="weatherError" class="error-box mt-1 hidden">
+        <p>Failed to fetch weather: <span id="weatherErrorMsg"></span></p>
+      </div>
+
+      <div id="apiUrlCard" class="card mt-2 hidden">
+        <h3>API URL Being Called:</h3>
+        <pre id="apiUrlPre" style="word-break:break-all; white-space:pre-wrap;"></pre>
+        <p style="font-size:0.85rem; color:#64748b; margin-bottom:0;">Try pasting this URL in your browser to see the raw JSON!</p>
+      </div>
+
+      <div class="compare-note">
+        <strong>The fetch() call is the same!</strong> The API interaction is identical
+        JavaScript. What Svelte simplifies is the display logic — no getElementById,
+        no classList toggling, no manual textContent updates. Just set variables.
+      </div>
+    </div>
+
+
+    <!-- ═══ FEATURE #9b: Leaflet Map ══════════════════════
+         Matches Svelte /map exactly:
+           Center: 41.88, -87.63
+           Click-to-add markers (NOT button-add)
+           Shows marker count
+           Clear Markers button only -->
+    <h2>Interactive Map (Feature 9b — API Call)</h2>
+    <div class="demo-section">
+      <p><strong>Leaflet.js</strong> + <strong>OpenStreetMap</strong> — free, no API key. Click the map to drop markers!</p>
+
+      <p class="mt-1">Markers placed: <strong id="markerCount">1</strong></p>
+      <button class="secondary" onclick="clearMarkers()">Clear All Markers</button>
+
+      <div id="map" class="mt-1"></div>
+
+      <div class="compare-note">
+        <strong>Key takeaway:</strong> The Leaflet code is nearly identical between
+        Vanilla JS and Svelte. The framework doesn't change how third-party libraries
+        work — it just changes how you manage the surrounding state (like the marker count)
+        and where you put initialization code (onMount vs. script-at-bottom-of-page).
+      </div>
+    </div>
+  </main>
+
+  <!-- Leaflet JS — loaded from CDN -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       FEATURE 9a: Weather API
+       ═══════════════════════════════════════════════════════
+
+       The fetch() call itself is identical in Vanilla JS and Svelte.
+       What differs is what happens AFTER we get the data:
+
+       Svelte:
+         let weather = $state(null);
+         let loading = $state(false);
+         async function fetchWeather() {
+           loading = true;
+           const res = await fetch(url);
+           weather = await res.json();
+           loading = false;
+         }
+         {#if loading}<p>Loading...</p>{/if}
+         {#if weather}<div>{weather.temp}°F</div>{/if}
+
+       Vanilla: see the classList.add/remove nightmare below.
+    */
+
+    // Weather code descriptions — same as Svelte version
+    const weatherCodes = {
+      0: '☀️ Clear sky', 1: '🌤️ Mainly clear', 2: '⛅ Partly cloudy',
+      3: '☁️ Overcast', 45: '🌫️ Foggy', 51: '🌧️ Light drizzle',
+      61: '🌧️ Slight rain', 63: '🌧️ Moderate rain', 65: '🌧️ Heavy rain',
+      71: '🌨️ Slight snow', 73: '🌨️ Moderate snow', 75: '🌨️ Heavy snow',
+      80: '🌦️ Rain showers', 95: '⛈️ Thunderstorm',
+    };
+
+    async function fetchWeather() {
+      const select = document.getElementById('citySelect');
+      const [lat, lon] = select.value.split(',');
+      const cityLabel = select.options[select.selectedIndex].text;
+
+      // API URL — IDENTICAL to Svelte version
+      const url = `https://api.open-meteo.com/v1/forecast`
+        + `?latitude=${lat}&longitude=${lon}`
+        + `&current=temperature_2m,weathercode,windspeed_10m`
+        + `&temperature_unit=fahrenheit&windspeed_unit=mph`;
+
+      // Show loading, hide everything else
+      // In Svelte: loading = true; weather = null; error = null;  ← 3 assignments
+      // In Vanilla: 4 classList operations:
+      document.getElementById('weatherLoading').classList.remove('hidden');
+      document.getElementById('weatherDisplay').classList.add('hidden');
+      document.getElementById('weatherError').classList.add('hidden');
+      document.getElementById('apiUrlPre').textContent = url;
+      document.getElementById('apiUrlCard').classList.remove('hidden');
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+
+        const temp = Math.round(data.current.temperature_2m);
+        const condition = weatherCodes[data.current.weathercode] || `Code: ${data.current.weathercode}`;
+        const wind = data.current.windspeed_10m;
+
+        // Manually update FOUR elements
+        // Svelte: weather = { city, temp, condition, wind };  ← ONE assignment
+        document.getElementById('weatherCity').textContent = cityLabel;
+        document.getElementById('weatherTemp').textContent = `${temp}°F`;
+        document.getElementById('weatherCondition').textContent = condition;
+        document.getElementById('weatherWind').textContent = `Wind: ${wind} mph`;
+        document.getElementById('weatherDisplay').classList.remove('hidden');
+
+      } catch (err) {
+        document.getElementById('weatherErrorMsg').textContent = err.message;
+        document.getElementById('weatherError').classList.remove('hidden');
+      } finally {
+        document.getElementById('weatherLoading').classList.add('hidden');
+      }
+    }
+
+
+    /* ═══════════════════════════════════════════════════════
+       FEATURE 9b: Leaflet Map
+       ═══════════════════════════════════════════════════════
+       Matches Svelte /map:
+         - Center: 41.88, -87.63 (Chicago)
+         - Click-to-add markers
+         - Clear markers button
+         - Marker count display
+
+       In Svelte, this same code goes inside onMount():
+         import { onMount } from 'svelte';
+         onMount(() => { /* same Leaflet code */ });
+       Plus: markerCount = markers.length; ← auto-updates display
+
+       In Vanilla: DOMContentLoaded + manual count update.
+    */
+
+    let map;
+    let markers = [];
+
+    function initMap() {
+      map = L.map('map').setView([41.88, -87.63], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      // Default marker
+      const defaultMarker = L.marker([41.88, -87.63])
+        .bindPopup('<strong>University of Chicago area</strong><br>Our starting point!')
+        .addTo(map);
+      markers.push(defaultMarker);
+
+      // Click-to-add markers (matches Svelte version)
+      map.on('click', (event) => {
+        const { lat, lng } = event.latlng;
+        const marker = L.marker([lat, lng])
+          .bindPopup(`📍 Lat: ${lat.toFixed(4)}, Lon: ${lng.toFixed(4)}`)
+          .addTo(map);
+        markers.push(marker);
+        // Manually update the count display
+        // Svelte: markerCount = markers.length;  ← template auto-updates
+        document.getElementById('markerCount').textContent = markers.length;
+      });
+    }
+
+    function clearMarkers() {
+      markers.forEach(m => m.removeFrom(map));
+      markers = [];
+      document.getElementById('markerCount').textContent = 0;
+    }
+
+    // Initialize map after DOM is ready
+    document.addEventListener('DOMContentLoaded', initMap);
+  </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/*
+ * Module 03: CSS Introduction
+ * 
+ * This stylesheet demonstrates:
+ * - Selector types (element, class, id)
+ * - Specificity calculations
+ * - Pseudo-classes
+ * - CSS units (px, rem, em, %)
+ * - Nesting with the & selector
+ */
+
+/* ===========================================
+   BASE STYLES
+   Set up root font size for rem calculations
+   =========================================== */
+
+html {
+    font-size: 18px;  /* Base font size - 1rem = 18px */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+/* ===========================================
+   ELEMENT SELECTORS
+   Specificity: (0, 0, 1)
+   =========================================== */
+
+h1 {
+    color: maroon;
+    /* font-size using rem (relative to root) */
+    font-size: 2rem;  /* 2 × 18px = 36px */
+}
+
+h2 {
+    color: #336;
+    font-size: 1.5rem;  /* 1.5 × 18px = 27px */
+    border-bottom: 2px solid #336;
+    padding-bottom: 0.5rem;
+}
+
+/* ===========================================
+   CLASS SELECTORS
+   Specificity: (0, 1, 0)
+   =========================================== */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.siteContent {
+    color: #555;
+    font-style: italic;
+}
+
+.paragraphContent {
+    background-color: #e8f4e8;
+    padding: 15px;
+    margin: 15px 0;
+    border-left: 4px solid #4a7;
+    border-radius: 4px;
+}
+
+/* ===========================================
+   ID SELECTORS
+   Specificity: (1, 0, 0) - Highest!
+   =========================================== */
+
+#welcome {
+    font-weight: bold;
+    font-size: 1.2rem;
+    /* This overrides .paragraphContent background due to higher specificity */
+    background-color: #fff8e8;
+    border-left-color: #c90;
+}
+
+#firstPara {
+    /* Can be styled specifically */
+}
+
+#secondPara {
+    /* Can be styled specifically */
+}
+
+#thirdPara {
+    /* No class, only id - let's give it a distinct style */
+    color: #666;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border: 1px dashed #999;
+    border-radius: 4px;
+}
+
+/* ===========================================
+   COMBINED SELECTORS (Higher Specificity)
+   =========================================== */
+
+/* Element + Class: Specificity (0, 1, 1) */
+p.paragraphContent {
+    /* More specific than just .paragraphContent */
+}
+
+/* Element + ID: Specificity (1, 0, 1) */
+p#welcome {
+    /* Even more specific! */
+}
+
+/* ===========================================
+   PSEUDO-CLASSES
+   =========================================== */
+
+.links-demo {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f5f5ff;
+    border-radius: 8px;
+}
+
+.links-demo nav {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+/* Link pseudo-classes - using nesting with & */
+.links-demo a {
+    color: blue;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: #e8e8ff;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    
+    /* Hover state */
+    &:hover {
+        color: white;
+        background-color: #4444ff;
+        font-weight: bold;
+    }
+    
+    /* Visited state */
+    &:visited {
+        color: purple;
+    }
+    
+    /* Active (being clicked) state */
+    &:active {
+        background-color: #2222aa;
+    }
+}
+
+/* ===========================================
+   CSS UNITS DEMONSTRATION
+   =========================================== */
+
+.units-demo {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #fff5f5;
+    border-radius: 8px;
+}
+
+.unit-box {
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid #333;
+    border-radius: 4px;
+}
+
+/* Absolute unit: pixels */
+.px-box {
+    width: 200px;
+    background-color: #ffdddd;
+}
+
+/* Relative unit: rem (relative to root font-size) */
+.rem-box {
+    font-size: 1.2rem;  /* 1.2 × 18px = 21.6px */
+    width: 20rem;       /* 20 × 18px = 360px */
+    background-color: #ddffdd;
+}
+
+/* Relative unit: percentage (relative to parent) */
+.percent-box {
+    width: 50%;  /* 50% of .units-demo width */
+    background-color: #ddddff;
+}
+
+/* ===========================================
+   SPECIFICITY DEMONSTRATION
+   =========================================== */
+
+.specificity-demo {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #fffff0;
+    border-radius: 8px;
+}
+
+/* Class selector: (0, 1, 0) - green */
+.spec-test {
+    color: green;
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid green;
+}
+
+/* ID selector: (1, 0, 0) - purple (WINS due to higher specificity) */
+#spec-id {
+    color: purple;
+    border-color: purple;
+}
+
+/*
+ * SPECIFICITY CALCULATION:
+ * 
+ * .spec-test      = (0, 1, 0)  → green
+ * #spec-id        = (1, 0, 0)  → purple (WINS!)
+ * 
+ * The element with id="spec-id" will be purple because
+ * ID specificity (1,0,0) beats class specificity (0,1,0)
+ */
+
+/* ===========================================
+   HOVER EFFECTS FOR EXERCISES
+   =========================================== */
+
+/*
+ * EXERCISE: Uncomment the code below to add hover effects
+ * to the paragraph elements
+ */
+
+/*
+.paragraphContent:hover {
+    background-color: #c8e4c8;
+    transform: translateX(5px);
+    transition: all 0.2s ease;
+}
+*/

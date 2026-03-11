@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 05: Leaflet Map Example
+      
+      This example demonstrates:
+      - Including external JavaScript libraries
+      - Working with geographic coordinates
+      - Creating interactive map elements
+      - Adding markers with popups
+    -->
+    <meta charset="UTF-8">
+    <title>Leaflet Map Example</title>
+    
+    <!-- 
+      Leaflet CSS - Must be included BEFORE the JS
+      This styles the map container, controls, and markers
+    -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin="" />
+    
+    <!-- Our custom styles -->
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <!--
+    onload event calls initMap() when the page finishes loading.
+    This ensures the DOM is ready before we try to create the map.
+  -->
+  <body onload="initMap()">
+    <div class="container">
+      <h1>Interactive Map with Leaflet.js</h1>
+      
+      <p>
+        This map uses the <a href="https://leafletjs.com/">Leaflet.js</a> library 
+        with tiles from <a href="https://www.openstreetmap.org/">OpenStreetMap</a>.
+      </p>
+      
+      <!--
+        The map container.
+        IMPORTANT: The container MUST have a defined height!
+        Leaflet won't work without it.
+      -->
+      <div id="map"></div>
+      
+      <!-- Map controls -->
+      <div class="controls">
+        <h3>Map Actions:</h3>
+        <button onclick="flyToChicago()">Fly to Chicago</button>
+        <button onclick="flyToNewYork()">Fly to New York</button>
+        <button onclick="flyToLA()">Fly to Los Angeles</button>
+        <button onclick="addRandomMarker()">Add Random Marker</button>
+      </div>
+      
+      <!-- Info section -->
+      <section class="info">
+        <h3>How it works:</h3>
+        <ul>
+          <li><strong>Tile Layer:</strong> Map images loaded from OpenStreetMap servers</li>
+          <li><strong>Markers:</strong> Interactive points with popups</li>
+          <li><strong>Zoom:</strong> Use mouse wheel or +/- buttons</li>
+          <li><strong>Pan:</strong> Click and drag to move around</li>
+        </ul>
+        
+        <h3>Key Code:</h3>
+        <pre><code>// Create map centered on coordinates
+const map = L.map('map').setView([lat, lng], zoom);
+
+// Add tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// Add marker with popup
+L.marker([lat, lng]).addTo(map).bindPopup('Hello!');</code></pre>
+      </section>
+    </div>
+    
+    <!--
+      Leaflet JS - Must be included AFTER the CSS
+      and BEFORE your custom script
+    -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    
+    <!-- Our custom map script -->
+    <script src="script.js"></script>
+  </body>
+</html>

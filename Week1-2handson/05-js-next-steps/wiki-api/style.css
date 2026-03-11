@@ -1,0 +1,166 @@
+/*
+ * Module 05: Wikipedia API Example - Stylesheet
+ */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #0066cc;
+    outline: none;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button[type="submit"] {
+    background-color: #0066cc;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #0052a3;
+}
+
+.clear-btn {
+    background-color: #666;
+    color: white;
+}
+
+.clear-btn:hover {
+    background-color: #555;
+}
+
+/* Results area */
+#wiki {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    min-height: 100px;
+}
+
+#wiki:empty::before {
+    content: "Search results will appear here...";
+    color: #999;
+    font-style: italic;
+}
+
+/* Individual result links */
+.wiki-link {
+    display: block;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    color: #0066cc;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.wiki-link:hover {
+    background-color: #f0f7ff;
+    border-color: #0066cc;
+    transform: translateX(5px);
+}
+
+/* Snippet text (if you uncomment the exercise) */
+.wiki-snippet {
+    margin: 0 0 15px 15px;
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+    background-color: #f9f9f9;
+    border-left: 3px solid #ddd;
+}
+
+/* Loading and status messages */
+.loading {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.result-count {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.error {
+    color: #cc0000;
+    padding: 15px;
+    background-color: #ffe8e8;
+    border: 1px solid #ffcccc;
+    border-radius: 6px;
+}
+
+/* Info section */
+.info {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f0f7ff;
+    border-radius: 8px;
+    border: 1px solid #cce5ff;
+}
+
+.info h3 {
+    color: #0052a3;
+    margin-top: 0;
+}
+
+.info ol {
+    color: #444;
+}
+
+.info p {
+    font-size: 14px;
+    color: #666;
+}

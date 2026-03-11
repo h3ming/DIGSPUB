@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comments — Vanilla JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">🧪 Svelte Sandbox</a>
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery &amp; Search</a>
+    <a href="forms.html">Forms &amp; Validation</a>
+    <a href="api.html">APIs</a>
+    <a href="comments.html" class="active">Comments</a>
+  </nav>
+
+  <main>
+    <h1>Comments Section (Feature 12)</h1>
+    <p>Each comment gets a UUID. Push to array → but then you must ALSO manually create DOM elements.</p>
+
+    <div class="card">
+      <h3>Add a Comment</h3>
+      <form id="commentForm" onsubmit="event.preventDefault(); addComment();">
+        <div class="form-group">
+          <label for="commentAuthor">Name:</label>
+          <input type="text" id="commentAuthor" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="commentText">Comment:</label>
+          <textarea id="commentText" rows="3" placeholder="Write your comment..." required></textarea>
+        </div>
+        <button type="submit">Post Comment</button>
+      </form>
+    </div>
+
+    <p class="mt-2"><span id="commentCount">0</span> comment(s)</p>
+
+    <div id="commentsList"></div>
+
+    <!-- Empty state — Svelte: {#if comments.length === 0}<p>...</p>{/if}
+         Vanilla: manually toggle .hidden -->
+    <p id="emptyMessage" class="no-results">No comments yet. Be the first!</p>
+
+    <div class="compare-note">
+      <strong>Array reactivity gotcha:</strong> In Svelte, use <code>comments = [newItem, ...comments]</code>
+      instead of <code>comments.push(newItem)</code>. Svelte detects <em>assignments</em>,
+      not mutations. This is the #1 thing students trip over.
+    </div>
+  </main>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       COMMENTS — Feature #12
+       ═══════════════════════════════════════════════════════
+
+       Svelte (the ENTIRE add logic):
+         comments = [comment, ...comments];
+         authorInput = '';
+         textInput = '';
+         // {#each} re-renders. Count uses {comments.length}. All auto.
+
+       Vanilla JS (below): push to array, THEN manually create DOM
+       elements, THEN update the count, THEN clear the form.
+
+       Python comparison:
+         uuid.uuid4() → crypto.randomUUID()
+         list comprehension → array.filter()
+    */
+
+    let comments = [];
+
+    function addComment() {
+      const authorInput = document.getElementById('commentAuthor');
+      const textInput = document.getElementById('commentText');
+
+      const author = authorInput.value.trim();
+      const text = textInput.value.trim();
+      if (!author || !text) return;
+
+      const comment = {
+        id: crypto.randomUUID(),
+        author: author,
+        text: text,
+        timestamp: new Date().toLocaleString(),
+      };
+
+      // Add to array (newest first)
+      comments.unshift(comment);
+
+      // NOW manually create a DOM element — Svelte's {#each} does this for free
+      renderComment(comment);
+
+      // Manually update count — Svelte: {comments.length} auto-updates
+      document.getElementById('commentCount').textContent = comments.length;
+
+      // Hide empty message
+      document.getElementById('emptyMessage').classList.add('hidden');
+
+      // Clear form
+      authorInput.value = '';
+      textInput.value = '';
+      authorInput.focus();
+    }
+
+
+    function renderComment(comment) {
+      const list = document.getElementById('commentsList');
+
+      // Manually create HTML for the comment
+      // In Svelte, the {#each} template handles ALL of this
+      const div = document.createElement('div');
+      div.className = 'comment';
+      div.id = `comment-${comment.id}`;
+      div.innerHTML = `
+        <div class="meta">
+          <span>
+            <span class="author">${escapeHtml(comment.author)}</span>
+            · ${comment.timestamp}
+          </span>
+          <span class="hash-id" title="Unique comment ID">
+            #${comment.id.slice(0, 8)}
+          </span>
+        </div>
+        <p>${escapeHtml(comment.text)}</p>
+        <button class="delete-btn"
+                onclick="deleteComment('${comment.id}')">
+          Delete
+        </button>
+      `;
+
+      // Insert at the TOP of the list (newest first)
+      list.prepend(div);
+    }
+
+
+    function deleteComment(id) {
+      // Filter the array — Python: comments = [c for c in comments if c['id'] != id]
+      comments = comments.filter(c => c.id !== id);
+
+      // ALSO manually remove from the DOM
+      // In Svelte: just update the array. {#each} removes the element automatically.
+      const element = document.getElementById(`comment-${id}`);
+      if (element) element.remove();
+
+      // ALSO manually update count
+      document.getElementById('commentCount').textContent = comments.length;
+
+      // Show empty message if no comments left
+      if (comments.length === 0) {
+        document.getElementById('emptyMessage').classList.remove('hidden');
+      }
+    }
+
+
+    // XSS Prevention — escape user input before inserting as HTML
+    // Python equivalent: from html import escape; safe = escape(user_input)
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

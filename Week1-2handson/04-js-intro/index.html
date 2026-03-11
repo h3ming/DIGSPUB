@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 04: JavaScript Introduction
+      
+      This document demonstrates JavaScript fundamentals:
+      - Variables (let, const)
+      - Functions
+      - Conditionals
+      - Loops
+      - DOM manipulation
+    -->
+    <meta charset="UTF-8">
+    <title>JavaScript Introduction</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <div class="container">
+      <h1>JavaScript Basics</h1>
+      
+      <h3 id="welcome" class="siteContent">Welcome to my website</h3>
+      
+      <!-- Greeting div - updated by JavaScript -->
+      <div id="greeting"></div>
+      
+      <!-- Section 1: Hello Function -->
+      <section class="demo-section">
+        <h2>1. Hello Function</h2>
+        <p>Click the button to run a function that asks for your name:</p>
+        
+        <!--
+          onclick attribute calls the hello() function
+          defined in script.js
+        -->
+        <button onclick="hello()">Say Hello</button>
+      </section>
+      
+      <!-- Section 2: Number Evaluation -->
+      <section class="demo-section">
+        <h2>2. Number Evaluation</h2>
+        <p>Enter a 5-digit number to check if it's odd or even:</p>
+        
+        <button onclick="evalNumber()">Evaluate Number (Alert)</button>
+        <button onclick="evalNumber2()">Evaluate Number (In Page)</button>
+        
+        <div id="result" class="output-box"></div>
+      </section>
+      
+      <!-- Section 3: Time-Based Conditional -->
+      <section class="demo-section">
+        <h2>3. Time-Based Greeting</h2>
+        <p>This function shows different messages based on the time of day:</p>
+        
+        <button onclick="conditional()">Get Time Greeting</button>
+        
+        <div id="timeResult" class="output-box"></div>
+      </section>
+      
+      <!-- Section 4: Loop Demonstration -->
+      <section class="demo-section">
+        <h2>4. Loop Examples</h2>
+        <p>Click to see loop output in the console (press F12):</p>
+        
+        <button onclick="loopDemo()">Run For Loop</button>
+        <button onclick="arrayLoopDemo()">Loop Through Array</button>
+        
+        <div id="loopResult" class="output-box"></div>
+      </section>
+      
+      <!-- Section 5: Variables Demo -->
+      <section class="demo-section">
+        <h2>5. Variables: let vs const</h2>
+        <p>Click to see variable behavior in the console:</p>
+        
+        <button onclick="variablesDemo()">Variables Demo</button>
+        
+        <div id="varsResult" class="output-box"></div>
+      </section>
+      
+      <!-- Section 6: Scope Demo -->
+      <section class="demo-section">
+        <h2>6. Scope Demo</h2>
+        <p>Demonstrates variable scope with functions:</p>
+        
+        <button onclick="scopeTest()">Scope Test</button>
+      </section>
+      
+    </div>
+    
+    <!--
+      Script tag loads external JavaScript file.
+      Placed at end of body so DOM is fully loaded first.
+    -->
+    <script src="script.js"></script>
+  </body>
+</html>

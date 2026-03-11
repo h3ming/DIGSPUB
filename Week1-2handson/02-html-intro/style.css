@@ -1,0 +1,106 @@
+/*
+ * Module 02: HTML Introduction - Stylesheet
+ * 
+ * This CSS file demonstrates basic styling that works with
+ * the HTML concepts from Module 02.
+ */
+
+/* 
+ * Container class - adds margin around the main content
+ * .container targets all elements with class="container"
+ */
+.container {
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+}
+
+/* 
+ * Style the main heading
+ */
+h1 {
+    color: maroon;
+}
+
+/*
+ * Style elements with the siteContent class
+ */
+.siteContent {
+    color: #555;
+    font-style: italic;
+}
+
+/*
+ * Style all paragraphs with the paragraphContent class
+ */
+.paragraphContent {
+    background-color: #e8f4e8;
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 4px solid #4a7;
+}
+
+/*
+ * Nested div styling to visualize hierarchy
+ */
+#div_02 {
+    border: 2px dashed blue;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+#div_03 {
+    border: 2px solid red;
+    padding: 10px;
+    background-color: #ffe8e8;
+}
+
+/*
+ * Section styling
+ */
+section {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #f0f0ff;
+    border-radius: 5px;
+}
+
+section h2 {
+    color: #336;
+    border-bottom: 2px solid #336;
+    padding-bottom: 5px;
+}
+
+/*
+ * Code element styling
+ */
+code {
+    background-color: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+}
+
+/*
+ * Link styling
+ */
+a {
+    color: #0066cc;
+}
+
+a:hover {
+    color: #004499;
+    text-decoration: underline;
+}
+
+/*
+ * Footer styling
+ */
+footer {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+}

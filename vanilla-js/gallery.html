@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery & Search — Vanilla JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">🧪 Svelte Sandbox</a>
+    <a href="index.html">Home</a>
+    <a href="gallery.html" class="active">Gallery &amp; Search</a>
+    <a href="forms.html">Forms &amp; Validation</a>
+    <a href="api.html">APIs</a>
+    <a href="comments.html">Comments</a>
+  </nav>
+
+  <main>
+    <h1>Image Search by Alt Text (Feature 8)</h1>
+    <p>Type in the search bar to filter images. This uses the same image data as the Svelte version.</p>
+
+    <div class="form-group">
+      <label for="searchBar">🔍 Search images:</label>
+      <input type="search" id="searchBar" placeholder="Try: cat, mountain, city, food..."
+             oninput="filterGallery()">
+    </div>
+
+    <p>Showing <strong id="matchCount">8</strong> of 8 images</p>
+
+    <!-- The gallery is built by JavaScript from an array of data.
+         In Svelte this is just:
+           {#each filteredImages as img (img.id)}
+             <div class="image-card"><img src={img.src} alt={img.alt}></div>
+           {/each}
+         In Vanilla JS, we manually build HTML strings and inject them. -->
+    <div class="image-grid" id="galleryContainer">
+      <!-- JS will populate this -->
+    </div>
+
+    <!-- "No results" message — In Svelte: {#if filteredImages.length === 0}<p>...</p>{/if}
+         In Vanilla: manually show/hide with classList -->
+    <p id="noResults" class="no-results hidden">No images match "<span id="noResultsTerm"></span>". Try a different search term.</p>
+
+    <div class="compare-note">
+      <strong>Line count comparison:</strong> The Vanilla JS search below is ~40 lines with
+      manual DOM manipulation. The Svelte version is ~15 lines of logic + template.
+      Same functionality, dramatically less code.
+    </div>
+  </main>
+
+  <script>
+    /* ─── Image Data ──────────────────────────────────────
+       IDENTICAL to the Svelte /search page.
+       Same seeds, same sizes (300×200), same alt texts.
+
+       Svelte approach:
+         const images = [ ... ];  // same data
+         let searchTerm = $state('');
+         let filteredImages = $derived(
+           images.filter(img => img.alt.toLowerCase().includes(searchTerm.toLowerCase()))
+         );
+         {#each filteredImages as img (img.id)} ... {/each}
+         // That's it. The list re-renders automatically.
+
+       Vanilla JS approach: see below (much more code).
+    */
+
+    const images = [
+      { id: 1, src: 'https://picsum.photos/seed/cat1/300/200',    alt: 'Orange tabby cat sleeping on a windowsill' },
+      { id: 2, src: 'https://picsum.photos/seed/mount1/300/200',  alt: 'Snow-capped mountain with pine trees' },
+      { id: 3, src: 'https://picsum.photos/seed/city1/300/200',   alt: 'City skyline at sunset with skyscrapers' },
+      { id: 4, src: 'https://picsum.photos/seed/food1/300/200',   alt: 'Fresh pasta with tomato sauce and basil' },
+      { id: 5, src: 'https://picsum.photos/seed/dog1/300/200',    alt: 'Golden retriever playing in a park' },
+      { id: 6, src: 'https://picsum.photos/seed/ocean1/300/200',  alt: 'Ocean waves crashing on a rocky beach' },
+      { id: 7, src: 'https://picsum.photos/seed/cat2/300/200',    alt: 'Black cat sitting on a stack of books' },
+      { id: 8, src: 'https://picsum.photos/seed/food2/300/200',   alt: 'Colorful fruit bowl with tropical food items' },
+    ];
+
+
+    // ─── Build the gallery (Feature #3) ─────────────────
+    // Manually create HTML for each image and inject it.
+    // This is what Svelte's {#each} block does for you automatically.
+
+    function buildGallery() {
+      const container = document.getElementById('galleryContainer');
+      let html = '';
+      images.forEach((img) => {
+        html += `
+          <div class="image-card" data-id="${img.id}">
+            <img src="${img.src}" alt="${img.alt}" loading="lazy">
+            <div class="caption">${img.alt}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+
+    // ─── Filter the gallery (Feature #8) ─────────────────
+    //
+    // Vanilla JS approach: find all gallery items in the DOM,
+    // loop through them, check each alt text, toggle CSS class.
+    //
+    // Svelte approach:
+    //   let searchTerm = $state('');
+    //   let filteredImages = $derived(
+    //     images.filter(img => img.alt.toLowerCase().includes(searchTerm.toLowerCase()))
+    //   );
+    //   {#each filteredImages as img} ... {/each}
+    //   // That's it. The list re-renders automatically.
+
+    function filterGallery() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const items = document.querySelectorAll('.image-card');
+      let visible = 0;
+
+      items.forEach((item) => {
+        const id = parseInt(item.dataset.id);
+        const img = images.find(i => i.id === id);
+        const alt = img.alt.toLowerCase();
+
+        if (alt.includes(query)) {
+          item.classList.remove('hidden');
+          visible++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('matchCount').textContent = visible;
+
+      // Show/hide "no results" message
+      const noResults = document.getElementById('noResults');
+      if (visible === 0 && query.length > 0) {
+        document.getElementById('noResultsTerm').textContent = query;
+        noResults.classList.remove('hidden');
+      } else {
+        noResults.classList.add('hidden');
+      }
+    }
+
+    // Build gallery on page load
+    buildGallery();
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/*
+ * Module 05: Leaflet Map Example - Stylesheet
+ */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+
+/*
+ * Map container - MUST have a defined height!
+ * Leaflet won't work without it.
+ */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    margin: 20px 0;
+}
+
+/* Controls section */
+.controls {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.controls h3 {
+    margin-top: 0;
+    color: #444;
+}
+
+.controls button {
+    padding: 10px 20px;
+    margin: 5px 5px 5px 0;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #2e7d32;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.controls button:hover {
+    background-color: #1b5e20;
+}
+
+/* Info section */
+.info {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    border: 1px solid #c8e6c9;
+}
+
+.info h3 {
+    color: #2e7d32;
+    margin-top: 0;
+}
+
+.info ul {
+    margin: 10px 0;
+}
+
+.info li {
+    margin: 8px 0;
+}
+
+/* Code block in info */
+.info pre {
+    background-color: #263238;
+    color: #aed581;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+.info code {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+/* Popup styling (Leaflet popups) */
+.popup-content h3 {
+    margin: 0 0 10px 0;
+    color: #2e7d32;
+    font-size: 16px;
+}
+
+.popup-content p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.popup-content small {
+    color: #888;
+    font-style: italic;
+}
+
+/* Links */
+a {
+    color: #2e7d32;
+}
+
+a:hover {
+    color: #1b5e20;
+}

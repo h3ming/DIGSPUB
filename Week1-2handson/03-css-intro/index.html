@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 03: CSS Introduction
+      
+      This document is designed to demonstrate CSS concepts:
+      - Selector types (element, class, id)
+      - Specificity calculations
+      - Pseudo-classes
+      - CSS units
+    -->
+    <meta charset="UTF-8">
+    <title>CSS Introduction - Selectors and Specificity</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!--
+      You can also add page-specific styles in the <head>.
+      These override external CSS due to cascade order.
+      
+      <style>
+        h1 { color: blue; }
+      </style>
+    -->
+  </head>
+  
+  <body>
+    <div class="container">
+      <h1>CSS Selectors and Specificity</h1>
+      
+      <!--
+        This welcome message has both an id and a class.
+        ID selectors have higher specificity than class selectors.
+      -->
+      <p id="welcome" class="siteContent paragraphContent">
+        Welcome to my website
+      </p>
+      
+      <!--
+        Multiple classes can be applied to the same element.
+        Separate class names with spaces in the attribute value.
+      -->
+      <p id="firstPara" class="paragraphContent">
+        First paragraph. This has class="paragraphContent"
+      </p>
+      
+      <p id="secondPara" class="paragraphContent">
+        Second paragraph. Same class, different id.
+      </p>
+      
+      <p id="thirdPara">
+        Third paragraph. Only has an id, no class.
+      </p>
+      
+      <!-- Links to demonstrate pseudo-classes -->
+      <section class="links-demo">
+        <h2>Link Pseudo-Classes Demo</h2>
+        <p>Hover over these links to see the :hover effect:</p>
+        <nav>
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </nav>
+      </section>
+      
+      <!-- Units demonstration -->
+      <section class="units-demo">
+        <h2>CSS Units Demo</h2>
+        
+        <div class="unit-box px-box">
+          This box is 200px wide (absolute)
+        </div>
+        
+        <div class="unit-box rem-box">
+          This box uses rem for font-size
+        </div>
+        
+        <div class="unit-box percent-box">
+          This box is 50% of parent width
+        </div>
+      </section>
+      
+      <!-- Specificity demonstration -->
+      <section class="specificity-demo">
+        <h2>Specificity Demo</h2>
+        <p class="spec-test" id="spec-id">
+          What color is this text? Check the CSS to understand why!
+        </p>
+        <p class="spec-test">
+          This paragraph only has a class (no id).
+        </p>
+      </section>
+      
+    </div>
+  </body>
+</html>

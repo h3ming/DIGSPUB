@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 05: Wikipedia API Example
+      
+      This example demonstrates:
+      - Making API calls with fetch()
+      - Using async/await
+      - Parsing JSON responses
+      - Dynamically creating DOM elements
+    -->
+    <meta charset="UTF-8">
+    <title>Wiki API Example</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <div class="container">
+      <h1>Wiki API Example</h1>
+      
+      <p>Search Wikipedia and see results displayed below:</p>
+      
+      <!--
+        Form collects the search term.
+        onsubmit prevents page reload and calls our function.
+      -->
+      <form 
+        id="wikiForm" 
+        onsubmit="event.preventDefault(); wikiAPI(document.getElementById('searchTerm').value);"
+      >
+        <input
+          id="searchTerm"
+          name="searchTerm"
+          type="text"
+          placeholder="Enter your search term here..."
+        />
+        
+        <!--
+          Button also has onclick as an alternative trigger.
+          Users can either press Enter in the input or click the button.
+        -->
+        <button
+          id="wikiButton"
+          type="submit"
+        >
+          Search
+        </button>
+        
+        <!-- Clear button to reset everything -->
+        <button
+          type="button"
+          onclick="clearAll()"
+          class="clear-btn"
+        >
+          Clear
+        </button>
+      </form>
+      
+      <!--
+        Results container.
+        The search results will be dynamically added here by JavaScript.
+      -->
+      <div id="wiki">
+        <!-- Results appear here -->
+      </div>
+      
+      <!-- Info section -->
+      <section class="info">
+        <h3>How it works:</h3>
+        <ol>
+          <li>Enter a search term in the input box</li>
+          <li>Click "Search" or press Enter</li>
+          <li>JavaScript sends a request to the Wikipedia API</li>
+          <li>The API returns JSON data with search results</li>
+          <li>JavaScript parses the JSON and creates links for each result</li>
+        </ol>
+        
+        <p>Open the browser console (F12) to see the JSON data logged!</p>
+      </section>
+    </div>
+    
+    <script src="script.js"></script>
+  </body>
+</html>

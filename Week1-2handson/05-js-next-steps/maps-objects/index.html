@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+      Module 05: JavaScript Maps and Objects
+      
+      This example demonstrates:
+      - JavaScript Objects (key-value pairs)
+      - JavaScript Maps
+      - Accessing and iterating data
+      - Practical examples with library inventory
+    -->
+    <meta charset="UTF-8">
+    <title>JavaScript Maps and Objects</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  
+  <body>
+    <div class="container">
+      <h1>JavaScript Maps and Objects</h1>
+      
+      <!-- Objects Section -->
+      <section class="demo-section">
+        <h2>1. JavaScript Objects</h2>
+        <p>
+          Objects store key-value pairs as properties. 
+          Keys are always strings (or Symbols).
+        </p>
+        
+        <button onclick="objectDemo()">Run Object Demo</button>
+        <button onclick="objectIteration()">Iterate Object</button>
+        
+        <div id="objectOutput" class="output-box"></div>
+      </section>
+      
+      <!-- Maps Section -->
+      <section class="demo-section">
+        <h2>2. JavaScript Maps</h2>
+        <p>
+          Maps are designed specifically for key-value storage.
+          Keys can be any type, and order is guaranteed.
+        </p>
+        
+        <button onclick="mapDemo()">Run Map Demo</button>
+        <button onclick="mapIteration()">Iterate Map</button>
+        
+        <div id="mapOutput" class="output-box"></div>
+      </section>
+      
+      <!-- Library Inventory Example -->
+      <section class="demo-section">
+        <h2>3. Practical Example: Library Inventory</h2>
+        <p>
+          A book library using a Map with ISBN as keys and book objects as values.
+        </p>
+        
+        <button onclick="showLibrary()">Show All Books</button>
+        <button onclick="searchBook()">Search by ISBN</button>
+        <button onclick="addBook()">Add a Book</button>
+        
+        <div id="libraryOutput" class="output-box"></div>
+      </section>
+      
+      <!-- Month Map Example (from slides) -->
+      <section class="demo-section">
+        <h2>4. Simple Map: Months</h2>
+        <p>
+          A simple example mapping numbers to month names.
+        </p>
+        
+        <button onclick="monthMapDemo()">Show Month Map</button>
+        
+        <div id="monthOutput" class="output-box"></div>
+      </section>
+      
+      <!-- Comparison Section -->
+      <section class="info">
+        <h3>Object vs Map: Quick Comparison</h3>
+        <table>
+          <tr>
+            <th>Feature</th>
+            <th>Object</th>
+            <th>Map</th>
+          </tr>
+          <tr>
+            <td>Key types</td>
+            <td>Strings/Symbols only</td>
+            <td>Any type</td>
+          </tr>
+          <tr>
+            <td>Key order</td>
+            <td>Not guaranteed</td>
+            <td>Insertion order</td>
+          </tr>
+          <tr>
+            <td>Get size</td>
+            <td>Object.keys(obj).length</td>
+            <td>map.size</td>
+          </tr>
+          <tr>
+            <td>Check key exists</td>
+            <td>"key" in obj</td>
+            <td>map.has(key)</td>
+          </tr>
+        </table>
+        
+        <p><strong>When to use Object:</strong> For structured data with known properties (like a person or settings).</p>
+        <p><strong>When to use Map:</strong> For collections where you'll add/remove items, or need non-string keys.</p>
+      </section>
+    </div>
+    
+    <script src="script.js"></script>
+  </body>
+</html>

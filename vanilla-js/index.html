@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Svelte Sandbox — Vanilla JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVIGATION BAR (Feature #7)
+       In Vanilla JS we copy-paste this nav into EVERY page.
+       In Svelte we write it once in +layout.svelte. -->
+  <nav>
+    <a href="index.html" class="brand">🧪 Svelte Sandbox</a>
+    <a href="index.html" class="active">Home</a>
+    <a href="gallery.html">Gallery &amp; Search</a>
+    <a href="forms.html">Forms &amp; Validation</a>
+    <a href="api.html">APIs</a>
+    <a href="comments.html">Comments</a>
+  </nav>
+
+  <main>
+    <h1>Vanilla JS Basics (Features 1–6)</h1>
+    <p>
+      Every feature here is also built in Svelte — open both side by side and compare!
+      This page covers: <code>let</code> variables, reactivity, images, buttons, inputs, and forms.
+    </p>
+
+
+    <!-- ═══ FEATURE #1: Using "let" with Counter ═════════ -->
+    <h2>Feature 1: Using <code>let</code> — Variable Declaration</h2>
+    <div class="demo-section">
+      <p>Current count: <strong id="countDisplay">0</strong></p>
+
+      <div class="flex gap-1">
+        <button onclick="incrementCount()">Increment</button>
+        <button class="secondary" onclick="resetCount()">Reset</button>
+      </div>
+
+      <div class="compare-note">
+        <strong>Vanilla JS needed:</strong> <code>document.getElementById('countDisplay').textContent = count;</code><br>
+        <strong>Svelte needs:</strong> Just <code>{count}</code> in the HTML. That's it.
+      </div>
+    </div>
+
+
+    <!-- ═══ FEATURE #2: Updating Existing Elements ════════ -->
+    <h2>Feature 2: Updating Elements</h2>
+    <div class="demo-section">
+      <p id="greetingText" style="transition: color 0.2s;">Hello! Click a button to change this text.</p>
+
+      <div class="flex gap-1 mt-1">
+        <button onclick="changeText()">Change Text</button>
+        <button class="secondary" onclick="changeColor()">Change Color</button>
+        <button class="secondary" onclick="changeHTML()">Change with HTML</button>
+      </div>
+
+      <div class="output-box mt-2" id="updateLog">// DOM operations appear here as you click</div>
+    </div>
+
+
+    <!-- ═══ FEATURE #3: Rendering Images ══════════════════ -->
+    <h2>Feature 3: Rendering Images</h2>
+    <div class="demo-section">
+      <p>Click to load a random image:</p>
+      <button onclick="loadRandomImage()">Load Random Image</button>
+      <div class="mt-1">
+        <img id="randomImage" src="https://picsum.photos/seed/default/400/200"
+             alt="Random landscape photo"
+             style="width:100%; max-width:400px; border-radius:8px; border:2px solid #e2e8f0;">
+      </div>
+      <p class="mt-1">Image alt text: "<span id="imageAltDisplay">Random landscape photo</span>"</p>
+    </div>
+
+
+    <!-- ═══ FEATURE #4: Buttons ═══════════════════════════ -->
+    <h2>Feature 4: Buttons</h2>
+    <div class="demo-section">
+      <p>Toggle button state:</p>
+      <button id="toggleBtn" onclick="toggleButton()" style="background-color:#3b82f6;">ON</button>
+      <p class="mt-1">Button has been clicked <strong id="clickCountDisplay">0</strong> time(s).</p>
+
+      <div class="output-box mt-2" id="toggleLog">// Toggle the button to see manual DOM updates</div>
+    </div>
+
+
+    <!-- ═══ FEATURE #5: Input Fields ══════════════════════ -->
+    <h2>Feature 5: Input Fields</h2>
+    <div class="demo-section">
+      <div class="form-group">
+        <label for="nameInput">Type your name:</label>
+        <input type="text" id="nameInput" placeholder="Your name here..." oninput="updateName()">
+      </div>
+      <p>Hello, <strong id="namePreview">stranger</strong>!</p>
+
+      <div class="form-group mt-2">
+        <label for="colorPicker">Pick a color:</label>
+        <input type="text" id="colorPicker" placeholder="#3b82f6" value="#3b82f6" oninput="updateColorSwatch()">
+      </div>
+      <div id="colorSwatch" style="width:60px; height:60px; border-radius:8px; border:2px solid #e2e8f0; background-color:#3b82f6;"></div>
+    </div>
+
+
+    <!-- ═══ FEATURE #6: Forms ═════════════════════════════ -->
+    <h2>Feature 6: Forms</h2>
+    <div class="demo-section">
+      <form id="contactForm" onsubmit="event.preventDefault(); handleFormSubmit();">
+        <div class="form-group">
+          <label for="formName">Name:</label>
+          <input type="text" id="formName" placeholder="Jane Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="formEmail">Email:</label>
+          <input type="email" id="formEmail" placeholder="jane@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="formMessage">Message:</label>
+          <textarea id="formMessage" rows="3" placeholder="Write something..."></textarea>
+        </div>
+        <div class="flex gap-1">
+          <button type="submit">Submit</button>
+          <button type="button" class="secondary" onclick="clearForm()">Clear</button>
+        </div>
+      </form>
+
+      <div id="formResultCard" class="card mt-1 hidden">
+        <h3>Form Data Received:</h3>
+        <pre id="formResultPre"></pre>
+      </div>
+
+      <div class="compare-note">
+        <strong>Count the lines saved:</strong> No getElementById calls. No .value reads.
+        No classList.add/remove('hidden'). Svelte's bind:value and {#if} handle it all.
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /* ─── FEATURE 1: Counter ─────────────────────────────
+       Svelte equivalent (the ENTIRE feature):
+         let count = $state(0);
+         function incrementCount() { count++; }
+         function resetCount() { count = 0; }
+         <p>Current count: {count}</p>
+         <button onclick={incrementCount}>Increment</button>
+    */
+    let count = 0;
+
+    function incrementCount() {
+      count++;
+      document.getElementById('countDisplay').textContent = count;
+    }
+
+    function resetCount() {
+      count = 0;
+      document.getElementById('countDisplay').textContent = count;
+    }
+
+
+    /* ─── FEATURE 2: Updating Elements ───────────────────
+       Svelte: greeting = 'new text';  // template auto-updates
+       Vanilla: find element → change property → repeat
+    */
+    function changeText() {
+      const el = document.getElementById('greetingText');
+      el.textContent = '🎉 The text has been changed by Svelte reactivity!';
+      document.getElementById('updateLog').textContent =
+        `// Vanilla JS:\n` +
+        `el.textContent = '🎉 The text has been changed...';\n\n` +
+        `// Svelte:\n` +
+        `// greeting = '🎉 The text has been changed...';  ← done`;
+    }
+
+    function changeColor() {
+      const el = document.getElementById('greetingText');
+      el.style.color = '#3b82f6';
+      el.style.fontWeight = 'bold';
+      document.getElementById('updateLog').textContent =
+        `// Vanilla JS: find element, set TWO style properties\n` +
+        `el.style.color = '#3b82f6';\n` +
+        `el.style.fontWeight = 'bold';\n\n` +
+        `// Svelte: change two variables\n` +
+        `// greetingColor = '#3b82f6';  greetingBold = true;\n` +
+        `// Template: style:color={greetingColor} class:bold={greetingBold}`;
+    }
+
+    function changeHTML() {
+      const el = document.getElementById('greetingText');
+      el.innerHTML = 'This has <strong>bold</strong> and <em>italic</em> text via {@html}.';
+      document.getElementById('updateLog').textContent =
+        `// Vanilla JS: el.innerHTML = 'This has <strong>bold</strong>...';\n` +
+        `// ⚠️ innerHTML is dangerous with user input (XSS risk)\n\n` +
+        `// Svelte: greeting = 'This has <strong>bold</strong>...';\n` +
+        `// Template: {@html greeting}  ← same XSS warning applies!`;
+    }
+
+
+    /* ─── FEATURE 3: Rendering Images ────────────────────
+       Svelte: let imageUrl = $state('...');
+               <img src={imageUrl}>  ← just change the variable
+       Vanilla: find <img>, set .src AND .alt manually.
+    */
+    let imageCounter = 1;
+
+    function loadRandomImage() {
+      imageCounter++;
+      const newUrl = `https://picsum.photos/seed/photo${imageCounter}/400/200`;
+      const newAlt = `Random photo #${imageCounter}`;
+      document.getElementById('randomImage').src = newUrl;
+      document.getElementById('randomImage').alt = newAlt;
+      document.getElementById('imageAltDisplay').textContent = newAlt;
+    }
+
+
+    /* ─── FEATURE 4: Toggle Button ───────────────────────
+       Svelte (the ENTIRE feature):
+         let isOn = $state(true);
+         let totalClicks = $state(0);
+         function toggleButton() { isOn = !isOn; totalClicks++; }
+         <button onclick={toggleButton}
+                 style:background-color={isOn ? '#3b82f6' : '#ef4444'}>
+           {isOn ? 'ON' : 'OFF'}
+         </button>
+         <p>Button has been clicked {totalClicks} time(s).</p>
+
+       Below is what Vanilla JS needs for the SAME result:
+    */
+    let isOn = true;
+    let totalClicks = 0;
+
+    function toggleButton() {
+      isOn = !isOn;
+      totalClicks++;
+      // Manually update THREE things:
+      const btn = document.getElementById('toggleBtn');
+      btn.textContent = isOn ? 'ON' : 'OFF';
+      btn.style.backgroundColor = isOn ? '#3b82f6' : '#ef4444';
+      document.getElementById('clickCountDisplay').textContent = totalClicks;
+
+      document.getElementById('toggleLog').textContent =
+        `// Vanilla JS: 3 manual DOM updates every click\n` +
+        `btn.textContent = '${isOn ? 'ON' : 'OFF'}';\n` +
+        `btn.style.backgroundColor = '${isOn ? '#3b82f6' : '#ef4444'}';\n` +
+        `countEl.textContent = ${totalClicks};\n\n` +
+        `// Svelte: isOn = !isOn; totalClicks++;  ← template does the rest`;
+    }
+
+
+    /* ─── FEATURE 5: Input Fields ────────────────────────
+       Svelte: <input bind:value={name}>
+               <p>Hello, {name || 'stranger'}!</p>
+       Vanilla: oninput event → read value → write to another element
+    */
+    function updateName() {
+      const val = document.getElementById('nameInput').value;
+      document.getElementById('namePreview').textContent = val || 'stranger';
+    }
+
+    function updateColorSwatch() {
+      const val = document.getElementById('colorPicker').value;
+      document.getElementById('colorSwatch').style.backgroundColor = val;
+    }
+
+
+    /* ─── FEATURE 6: Forms ───────────────────────────────
+       Svelte: bind:value on each field. Variables already have the data.
+       Vanilla: preventDefault(), then READ each field from the DOM.
+    */
+    function handleFormSubmit() {
+      const name = document.getElementById('formName').value;
+      const email = document.getElementById('formEmail').value;
+      const message = document.getElementById('formMessage').value;
+      const data = { name, email, message, submittedAt: new Date().toLocaleTimeString() };
+
+      document.getElementById('formResultPre').textContent = JSON.stringify(data, null, 2);
+      document.getElementById('formResultCard').classList.remove('hidden');
+    }
+
+    function clearForm() {
+      document.getElementById('contactForm').reset();
+      document.getElementById('formResultCard').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+body {
+    height: 100vh;
+    background-image: url(images/closedAll.png);
+}
+
+#guardian {
+    font-family: cursive;
+    font-size: 300%;
+    color: white;
+    position: absolute;
+    top: 50px;
+    left: 220px
+}
+
+#button {
+    position: absolute;
+    top: 550px;
+    left: 587px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 120%;
+}
+
+#greeting {
+    position: absolute;
+    color: rgb(144, 205, 144);
+    font-family: cursive;
+    top: 360px;
+    left: 530px;
+    font-size: 200%;
+}
+
+.note {
+    font-weight:bold;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+.hidden {
+    display: none;
+}
+
+.hovered:hover + .hidden {
+    display: block;
+    color: rgb(189, 189, 189);
+}

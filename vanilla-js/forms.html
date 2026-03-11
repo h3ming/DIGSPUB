@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms & Validation — Vanilla JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">🧪 Svelte Sandbox</a>
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery &amp; Search</a>
+    <a href="forms.html" class="active">Forms &amp; Validation</a>
+    <a href="api.html">APIs</a>
+    <a href="comments.html">Comments</a>
+  </nav>
+
+  <main>
+    <h1>Forms &amp; Validation</h1>
+    <p>Features 11 &amp; 10: Real-time validation as you type, plus a login pattern.</p>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         FEATURE #11: Form Validation
+         Matches Svelte /validation exactly:
+           5 fields: username, email, age, URL, password
+           Password strength meter
+           Submit disabled until all valid
+         ═══════════════════════════════════════════════════ -->
+    <h2>Feature 11: Form Validation</h2>
+    <p>Real-time validation as you type. The validation logic is identical JavaScript — Svelte just makes the display reactive.</p>
+
+    <div class="demo-section">
+      <form id="validationForm" onsubmit="event.preventDefault(); submitValidationForm();">
+
+        <div class="form-group">
+          <label for="valUsername">Username (3-20 chars, letters/numbers):</label>
+          <input type="text" id="valUsername" placeholder="janedoe42" oninput="validateField('username')">
+          <p class="error-msg" id="usernameError"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="valEmail">Email:</label>
+          <input type="text" id="valEmail" placeholder="jane@example.com" oninput="validateField('email')">
+          <p class="error-msg" id="emailError"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="valAge">Age (18-120):</label>
+          <input type="number" id="valAge" placeholder="25" oninput="validateField('age')">
+          <p class="error-msg" id="ageError"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="valUrl">Website URL (optional):</label>
+          <input type="text" id="valUrl" placeholder="https://example.com" oninput="validateField('url')">
+          <p class="error-msg" id="urlError"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="valPassword">Password (8+ chars, mixed case + number):</label>
+          <input type="password" id="valPassword" placeholder="••••••••" oninput="validateField('password')">
+          <p class="error-msg" id="passwordError"></p>
+          <p class="strength-indicator" id="passwordStrength"></p>
+        </div>
+
+        <!-- Button disabled state + text changes — in Svelte this is just:
+             <button disabled={!allValid}>{allValid ? 'Submit' : 'Fix errors to submit'}</button>
+             In Vanilla JS we must manually toggle both the disabled property AND the text. -->
+        <button type="submit" id="submitBtn" disabled>Fix errors to submit</button>
+      </form>
+
+      <div id="validationResult" class="card mt-1 hidden">
+        <h3>✅ All validations passed!</h3>
+        <pre id="validationResultPre"></pre>
+      </div>
+
+      <div class="compare-note">
+        <strong>The magic of $derived:</strong> In Svelte, each error is a computed value that
+        recalculates when its input changes. No event listeners, no manual DOM updates.
+        The button's disabled state is <em>also</em> a $derived value — when all errors
+        clear, the button enables itself automatically.
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         FEATURE #10: Login System (Simulated)
+         Matches Svelte /login exactly:
+           Working simulated UI with email/password
+           500ms fake delay → "Welcome, {email}!" + Logout
+           Warning about real auth
+           Commented-out code showing SvelteKit form actions
+         ═══════════════════════════════════════════════════ -->
+    <h2>Feature 10: Login System (Simulated)</h2>
+    <p>Shows the <em>structure</em> of a login system. Real auth requires a server.</p>
+
+    <div class="warning-card">
+      <p>⚠️ <strong>Important:</strong> Never do real authentication in client-side
+         JavaScript alone. Passwords must be verified on a server.</p>
+    </div>
+
+    <div class="demo-section" style="max-width: 400px;">
+      <!-- Login form — visible when NOT logged in
+           Svelte: {#if !isLoggedIn}<form>...</form>{:else}<div>Welcome!</div>{/if}
+           Vanilla: manually toggle .hidden on TWO separate containers -->
+      <div id="loginFormContainer">
+        <h3>🔒 Log In</h3>
+        <form id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+          <div class="form-group">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" placeholder="jane@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+          <button type="submit" id="loginBtn" style="width:100%;">Log In</button>
+        </form>
+        <p class="status-msg" id="loginStatus"></p>
+      </div>
+
+      <!-- "Logged in" view — hidden initially
+           In Svelte this is just the {:else} branch of one {#if} block.
+           In Vanilla JS it's a SEPARATE div we toggle manually. -->
+      <div id="loggedInContainer" class="hidden">
+        <h3>👋 Welcome, <span id="welcomeEmail"></span>!</h3>
+        <p>You are logged in. (This is simulated.)</p>
+        <button class="danger" onclick="handleLogout()" style="width:100%;">Log Out</button>
+      </div>
+    </div>
+
+    <div class="compare-note">
+      <strong>SvelteKit advantage:</strong> SvelteKit's form actions let you write
+      server-side auth logic in the same project. The form works WITHOUT JavaScript
+      (progressive enhancement). In Vanilla JS, you'd need a completely separate server.
+    </div>
+
+    <h2>What Real Auth Looks Like</h2>
+    <pre>
+// SvelteKit form action (in +page.server.js):
+export const actions = {
+  default: async ({request, cookies}) => {
+    const data = await request.formData();
+    const user = await db.getUserByEmail(data.get('email'));
+
+    if (user && await bcrypt.compare(data.get('password'), user.hash)) {
+      cookies.set('session', createToken(user.id), {
+        httpOnly: true,  // JS can't read this (security!)
+        secure: true,    // HTTPS only
+      });
+      throw redirect(303, '/dashboard');
+    }
+
+    return fail(401, {message: 'Invalid credentials'});
+  }
+};</pre>
+
+    <!--
+    ╔═══════════════════════════════════════════════════════╗
+    ║  REAL LOGIN — COMMENTED OUT                           ║
+    ║  This is the Vanilla JS pattern. Don't uncomment      ║
+    ║  unless you have a real authentication backend.        ║
+    ╚═══════════════════════════════════════════════════════╝
+
+    In a real Vanilla JS app, handleLogin() would call:
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          window.location.href = '/dashboard';
+        }
+      });
+    -->
+  </main>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       FEATURE 11: Validation
+       ═══════════════════════════════════════════════════════
+
+       The validation FUNCTIONS are identical JavaScript —
+       same regex, same logic. What's different:
+
+       Svelte:
+         let usernameError = $derived(username ? validateUsername(username) : '');
+         {#if usernameError}<p class="error">{usernameError}</p>{/if}
+         // That's it. Every keystroke triggers $derived, which triggers the template.
+
+       Vanilla JS:
+         oninput="validateField('username')"  → runs validator → reads DOM →
+         writes error text → toggles CSS class → checks all fields → toggles button
+         // FIVE manual steps per field, PER KEYSTROKE.
+    */
+
+    // --- Validation functions (IDENTICAL to Svelte version) ---
+
+    function validateUsername(val) {
+      if (!val) return 'Username is required';
+      if (val.length < 3) return 'Must be at least 3 characters';
+      if (val.length > 20) return 'Must be 20 characters or fewer';
+      if (!/^[a-zA-Z0-9]+$/.test(val)) return 'Letters and numbers only';
+      return '';
+    }
+
+    function validateEmail(val) {
+      if (!val) return 'Email is required';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) return 'Enter a valid email';
+      return '';
+    }
+
+    function validateAge(val) {
+      if (!val) return 'Age is required';
+      const num = parseInt(val, 10);
+      if (isNaN(num)) return 'Must be a number';
+      if (num < 18) return 'Must be 18 or older';
+      if (num > 120) return 'Please enter a realistic age';
+      return '';
+    }
+
+    function validateUrl(val) {
+      if (!val) return '';
+      try { new URL(val); return ''; }
+      catch { return 'Enter a valid URL (e.g., https://example.com)'; }
+    }
+
+    function validatePassword(val) {
+      if (!val) return 'Password is required';
+      if (val.length < 8) return 'Must be at least 8 characters';
+      if (!/[A-Z]/.test(val)) return 'Needs an uppercase letter';
+      if (!/[a-z]/.test(val)) return 'Needs a lowercase letter';
+      if (!/[0-9]/.test(val)) return 'Needs a number';
+      return '';
+    }
+
+    function getPasswordStrength(val) {
+      if (!val) return { label: '', color: '#94a3b8' };
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (val.length >= 12) score++;
+      if (/[A-Z]/.test(val) && /[a-z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^a-zA-Z0-9]/.test(val)) score++;
+      if (score <= 2) return { label: '🔴 Weak', color: '#ef4444' };
+      if (score <= 3) return { label: '🟡 Fair', color: '#eab308' };
+      if (score <= 4) return { label: '🟢 Strong', color: '#22c55e' };
+      return { label: '💪 Very Strong', color: '#16a34a' };
+    }
+
+
+    // --- The validation wiring (THIS is what Svelte's $derived replaces) ---
+    // Map of field name → { inputId, errorId, validator }
+    const fields = {
+      username: { inputId: 'valUsername', errorId: 'usernameError', validate: validateUsername },
+      email:    { inputId: 'valEmail',    errorId: 'emailError',    validate: validateEmail },
+      age:      { inputId: 'valAge',      errorId: 'ageError',      validate: validateAge },
+      url:      { inputId: 'valUrl',      errorId: 'urlError',      validate: validateUrl },
+      password: { inputId: 'valPassword', errorId: 'passwordError', validate: validatePassword },
+    };
+
+    function validateField(fieldName) {
+      const field = fields[fieldName];
+      const input = document.getElementById(field.inputId);
+      const errorEl = document.getElementById(field.errorId);
+      const val = input.value;
+
+      // Only validate if user has typed something
+      const error = val ? field.validate(val) : '';
+
+      // Update error message
+      errorEl.textContent = error;
+      errorEl.style.display = error ? 'block' : 'none';
+
+      // Update input border color
+      if (!val) {
+        input.className = '';
+      } else {
+        input.className = error ? 'invalid' : 'valid';
+      }
+
+      // Password strength (extra work, only for password field)
+      if (fieldName === 'password') {
+        const strengthEl = document.getElementById('passwordStrength');
+        const strength = getPasswordStrength(val);
+        strengthEl.textContent = strength.label;
+        strengthEl.style.color = strength.color;
+        strengthEl.style.display = val ? 'block' : 'none';
+      }
+
+      // Check if ALL required fields are valid → toggle button
+      // In Svelte: let allValid = $derived(username && !usernameError && email && ...);
+      //            <button disabled={!allValid}>  ← automatic
+      // In Vanilla: we must manually check every field every time ANY field changes
+      updateSubmitButton();
+    }
+
+    function updateSubmitButton() {
+      const username = document.getElementById('valUsername').value;
+      const email = document.getElementById('valEmail').value;
+      const age = document.getElementById('valAge').value;
+      const url = document.getElementById('valUrl').value;
+      const password = document.getElementById('valPassword').value;
+
+      const allValid =
+        username && !validateUsername(username) &&
+        email && !validateEmail(email) &&
+        age && !validateAge(age) &&
+        !validateUrl(url) &&
+        password && !validatePassword(password);
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = !allValid;
+      btn.textContent = allValid ? 'Submit' : 'Fix errors to submit';
+    }
+
+    function submitValidationForm() {
+      const username = document.getElementById('valUsername').value;
+      const email = document.getElementById('valEmail').value;
+      const age = document.getElementById('valAge').value;
+      const url = document.getElementById('valUrl').value;
+      const password = document.getElementById('valPassword').value;
+
+      const data = {
+        username,
+        email,
+        age: parseInt(age, 10),
+        url: url || null,
+        passwordLength: password.length,
+      };
+
+      document.getElementById('validationResultPre').textContent = JSON.stringify(data, null, 2);
+      document.getElementById('validationResult').classList.remove('hidden');
+    }
+
+
+    /* ═══════════════════════════════════════════════════════
+       FEATURE 10: Login (Simulated)
+       ═══════════════════════════════════════════════════════
+       Matches Svelte /login exactly:
+       - 500ms delay simulation
+       - Toggle between login form and "Welcome" view
+       - Logout resets state
+
+       Svelte: {#if !isLoggedIn} ... {:else} ... {/if}
+       Vanilla: manually toggle .hidden on TWO containers
+    */
+
+    async function handleLogin() {
+      const statusEl = document.getElementById('loginStatus');
+      statusEl.textContent = '⏳ Checking credentials...';
+      statusEl.style.color = '#64748b';
+
+      // Simulate server response delay
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      const email = document.getElementById('loginEmail').value;
+
+      // Hide login form, show logged-in view
+      // In Svelte: isLoggedIn = true;  ← ONE line. Template handles the rest.
+      // In Vanilla: manually toggle TWO containers and set welcome text:
+      statusEl.textContent = '';
+      document.getElementById('loginFormContainer').classList.add('hidden');
+      document.getElementById('loggedInContainer').classList.remove('hidden');
+      document.getElementById('welcomeEmail').textContent = email;
+    }
+
+    function handleLogout() {
+      // Svelte: isLoggedIn = false; email = ''; password = '';
+      // Vanilla: toggle containers back, reset form
+      document.getElementById('loggedInContainer').classList.add('hidden');
+      document.getElementById('loginFormContainer').classList.remove('hidden');
+      document.getElementById('loginForm').reset();
+    }
+  </script>
+</body>
+</html>

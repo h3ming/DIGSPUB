@@ -1,0 +1,105 @@
+body {
+    background-color: orange;
+    font-family: 'Calibri', sans-serif;
+    cursor: url('images/paw.png'), auto;
+}
+
+.heading-container {
+    background-image: linear-gradient(orange, rgba(227, 106, 50, 0.906), orange);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+}
+.heading-container img {
+    width: 100px;
+    transition: transform 0.5s ease-in-out; 
+}
+.heading-container img:hover{
+    transform: rotate(360deg);
+}
+.heading-container h1 {
+    font-family:cursive;
+    font-size: 80px;
+    color:rgb(255, 241, 216);
+}
+
+
+.banner {
+    width: auto;
+    height: 50px;
+    overflow: hidden;
+    margin-top: auto;
+}
+.banner img {
+    height:max-content;
+    transition: transform 0.5s;
+}
+.banner img:hover{
+    transform: rotate(720deg);
+}
+#welcome {
+    color:rgb(255, 241, 216);
+    font-family: cursive;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 0%;
+    margin-top: 1%
+}
+
+
+.facts-container {
+    /* background-color: rgb(253, 231, 204); */
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 1px;
+    margin-top: 1%;
+    background-color: rgb(249, 213, 169);
+    padding-left: auto;
+    padding-right: auto;
+}
+#fingerfact {
+    color:rgb(205, 94, 50);
+    /* font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin-left: 20px;
+}
+#chickenfact {
+    color:rgba(201, 92, 185, 0.817)
+}
+#turkeyfact {
+    color: rgb(177, 133, 89)
+}
+#agefact {
+    color: rgb(42, 177, 103)
+}
+#litterfact {
+    color: hsl(246, 71%, 71%)
+}
+#dreamfact {
+    color: rgb(198, 105, 51)
+}
+
+
+footer {
+    background-color: rgb(248, 136, 45);
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: large;
+}
+footer img {
+    width: 25px;
+    transition: transform 1s;
+}
+footer img:hover{
+    transform: scale(4);
+}
+footer a{
+    padding: 5px;
+    color: blue; /* I like the blue, fulfilling the add text colours to more than one element using class selector */
+}

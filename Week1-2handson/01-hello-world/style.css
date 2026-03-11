@@ -1,0 +1,49 @@
+/*
+ * Module 01: Hello World - Stylesheet
+ * 
+ * CSS (Cascading Style Sheets) controls the visual presentation of HTML elements.
+ * 
+ * Basic CSS Syntax:
+ * 
+ *   selector {
+ *       property: value;
+ *       property: value;
+ *   }
+ * 
+ * The selector targets HTML elements, and the declarations (property: value pairs)
+ * define how those elements should be styled.
+ */
+
+/* 
+ * Style the <h1> element
+ * This will apply to ALL <h1> elements on the page
+ */
+h1 {
+    color: maroon;
+    /* 
+     * EXERCISE: Try changing 'maroon' to other colors:
+     * - blue
+     * - darkgreen
+     * - #ff6600 (hex color - orange)
+     * - rgb(100, 50, 200) (RGB color - purple)
+     */
+}
+
+/*
+ * EXERCISE: Add more style rules below!
+ * 
+ * Example - style paragraphs:
+ * 
+ * p {
+ *     font-size: 18px;
+ *     line-height: 1.6;
+ * }
+ * 
+ * Example - style the body:
+ * 
+ * body {
+ *     font-family: Arial, sans-serif;
+ *     margin: 20px;
+ *     background-color: #f5f5f5;
+ * }
+ */

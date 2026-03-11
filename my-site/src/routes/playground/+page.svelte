@@ -25,7 +25,8 @@
             await new Promise(resolve => setTimeout(resolve, 1000));
             let category = getRandomCategory();
             // thanks corsproxy.io
-            const url = `https://corsproxy.io/?https://eightballapi.com/api/${category}?question=${question}`; // 
+            //const url = `https://corsproxy.io/?https://eightballapi.com/api/${category}?question=${question}`; // 
+            const url = `/api/eightball?category=${category}&question=${encodeURIComponent(question)}`;
             const response = await fetch(url);
             const data = await response.json();
             reading = data.reading

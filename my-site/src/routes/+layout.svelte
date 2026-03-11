@@ -44,11 +44,9 @@
         2. Add a +page.svelte file inside it
         3. Add a link here
       -->
-			<a href="/">Home</a>
+			<a href="/">Main</a>
 			<a href="/about">About</a>
 			<a href="/projects">Projects</a>
-			<a href="/weather">Weather</a>
-			<a href="/moon">Moon</a>
 			<a href="/playground">API Playground</a>
 		</div>
 	</div>
@@ -81,7 +79,7 @@
 	}
 
 	nav {
-		background-color: #0f1776;
+		background-color: #0f3076;
 		padding: 0.75rem 1.5rem;
 		position: sticky;
 		top: 0;

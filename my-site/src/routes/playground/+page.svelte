@@ -43,7 +43,7 @@
 
 <!-- Title -->
 <div class="flex justify-center mb-6">
-  <h1 class="text-white text-4xl text-center" style="font-family: 'Cinzel', serif;">
+  <h1 class="text-white text-4xl text-center" style="font-family: serif;">
     Are You Worthy to Enter?
   </h1>
   <Button class="bg-purple-900 translate-x-4" onclick={() => { 
@@ -56,7 +56,7 @@
 </div>
 
 {#if worthy}
-  <p class="text-purple-300 text-center italic" style="font-family: 'Cinzel', serif;">
+  <p class="text-purple-300 text-center italic" style="font-family: serif;">
     Am I worthy?
   </p>
 {/if}
@@ -66,7 +66,7 @@
 <div class="flex justify-center items-center">
   <div class="relative w-140 h-140 {shaking ? 'shake' : ''}"> 
     <img src="/orb.png" alt="A purple orb" class="w-full h-full object-contain" />
-    <p class="absolute inset-0 flex items-center justify-center text-center text-white font-bold -mt-1 -translate-x-2">
+    <p style="font-family: serif;" class="italic text-2xl absolute inset-0 flex items-center justify-center text-center text-purple-900 font-bold -mt-1 -translate-x-2">
       {reading}
     </p>
   </div>
@@ -83,7 +83,7 @@
 
 {#if isPositive}
   <div class="flex justify-center mt-6">
-    <a href="/moon" class="text-purple-300 hover:underline">Enter the playground →</a>
+    <a href="/weather" class="text-purple-300 font-bold hover:underline">Enter the playground →</a>
   </div>
 {/if}
 

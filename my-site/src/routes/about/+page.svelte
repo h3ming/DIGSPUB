@@ -17,7 +17,7 @@
   // YOUR INFO — edit these to be about YOU
   // ============================================
   const name = "Heming";
-  const major = "Your Major / Field of Study";
+  const major = "Digital Studies: Media";
   const year = "1st Year MA";
   const email = "h3ming@uchicago.edu";
 
@@ -33,7 +33,9 @@
     "CSS",
     "JavaScript",
     "Python",
-    "Svelte (learning!)"
+    "Svelte (learning!)",
+    "Blender",
+    "Arduino",
   ]);
 
   // ============================================
@@ -50,15 +52,15 @@
   // ============================================
   let newSkill = $state("");
 
-  function addSkill() {
-    // .trim() removes whitespace — same as Python's .strip()
-    if (newSkill.trim() !== "") {
-      // Spread operator (...) creates a NEW array with the old items + new one
-      // Python comparison: skills = [*skills, new_skill]
-      skills = [...skills, newSkill.trim()];
-      newSkill = "";  // Clear the input
-    }
-  }
+  // function addSkill() {
+  //   // .trim() removes whitespace — same as Python's .strip()
+  //   if (newSkill.trim() !== "") {
+  //     // Spread operator (...) creates a NEW array with the old items + new one
+  //     // Python comparison: skills = [*skills, new_skill]
+  //     skills = [...skills, newSkill.trim()];
+  //     newSkill = "";  // Clear the input
+  //   }
+  // }
 
   function removeSkill(index) {
     // .filter() keeps items that pass the test — like Python's list comprehension
@@ -67,7 +69,7 @@
   }
 </script>
 
-<h1>About {name}</h1>
+<h1 class="text-amber-300">Contact</h1>
 
 <section class="info-grid">
   <div class="info-item">
@@ -84,12 +86,25 @@
   </div>
 </section>
 
+<section class="bio bg-[#d6d6d6]">
+  <h2 class="text-center" >About Me</h2>
+  <p>
+    <!-- CUSTOMIZE: Write about yourself! 2-4 paragraphs. -->
+    Heming was born 1:43 pm on a Wednesday in September. Growing up, he wanted to be Luke Skywalker. Later, he thought he might make movies, or be in a band.
+    But I suppose when it comes down to it, what he really enjoys is thinking about things and making things. 
+  </p>
+  <p>
+    
+  </p>
+</section>
+
+<br><br>
 <section class="skills-section">
   <!--
     {skillCount} updates AUTOMATICALLY when skills array changes.
     This is $derived() in action — you never manually update it.
   -->
-  <h2>Skills ({skillCount})</h2>
+  <h2 class="text-amber-300">Skills ({skillCount})</h2>
 
   <ul class="skills-list">
     <!--
@@ -108,13 +123,13 @@
     {#each skills as skill, i (skill)}
       <li>
         {skill}
-        <button class="remove-btn" onclick={() => removeSkill(i)}>×</button>
+        <!-- <button class="remove-btn" onclick={() => removeSkill(i)}>×</button> -->
       </li>
     {/each}
   </ul>
 
-  <!-- Add a new skill — demonstrates input binding + state -->
-  <div class="add-skill">
+  <!-- Add a new skill — demonstrates input binding + state 
+  <div class="add-skill"> -->
     <!--
       bind:value connects the input to the newSkill variable.
       When you type, newSkill updates. When newSkill changes, the input updates.
@@ -122,7 +137,7 @@
       
       Python comparison: there's no direct equivalent. In vanilla JS you'd need:
         input.addEventListener('input', (e) => { newSkill = e.target.value; });
-    -->
+    
     <input
       type="text"
       bind:value={newSkill}
@@ -130,20 +145,10 @@
       onkeydown={(e) => e.key === 'Enter' && addSkill()}
     />
     <button onclick={addSkill}>Add</button>
-  </div>
+  </div> -->
 </section>
 
-<section class="bio">
-  <h2>About Me</h2>
-  <p>
-    <!-- CUSTOMIZE: Write about yourself! 2-4 paragraphs. -->
-    Heming was born 1:43 pm on a Wednesday in September in Singapore. Within 6 months he had left, never (yet) to return.
-  </p>
-  <p>
-    This page is a great place to share your story, your goals,
-    and what makes you unique. Make it personal!
-  </p>
-</section>
+
 
 <style>
   h1 {

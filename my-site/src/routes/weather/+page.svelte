@@ -113,7 +113,7 @@ function handleEnter(event) {
 }
 </script>
 
-<h1 class="text-3xl font-bold text-white mb-4">Weather API with meteo</h1>
+<h1 class="text-center text-3xl font-bold text-white mb-4">Weather</h1>
 
 <div class="flex gap-3 mb-6">
     <select bind:value={city} class="p-2 border rounded bg-white">
@@ -151,11 +151,11 @@ function handleEnter(event) {
     <Table.Root class="bg-white pb-5 pt-5">
         <Table.Header>
             <Table.Row>
-                <Table.Head>Date</Table.Head>
-                <Table.Head>High</Table.Head>
-                <Table.Head>Low</Table.Head>
-                <Table.Head>Rain %</Table.Head>
-                <Table.Head>Wind (max)</Table.Head>
+                <Table.Head class="font-bold">Date</Table.Head>
+                <Table.Head class="font-bold">High</Table.Head>
+                <Table.Head class="font-bold">Low</Table.Head>
+                <Table.Head class="font-bold">Rain %</Table.Head>
+                <Table.Head class="font-bold">Wind (max)</Table.Head>
             </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -191,3 +191,7 @@ function handleEnter(event) {
         </Card.Content>
     </Card.Root> -->
 {/if}
+
+<div class="flex justify-center mt-6 mt-auto">
+<a href="/WIP" class="text-purple-300 hover:underline font-bold">Continue in playground →</a>
+</div>

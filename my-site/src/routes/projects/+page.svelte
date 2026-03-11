@@ -33,7 +33,11 @@
   {src: "/Renders/antfire.gif", description: "2023. The Radiant Sun. Playing with particle animation."},
   {src: "/Renders/chicagodog.gif", description: "2025. Inspired by heated debates on hot dog ontology. Trying out this cel shader setup."},
   {src: "/Renders/cgfinal.mp4", 
-  description: "2024. My final project for Computer Graphics. I implented a loop division algorithm and b-spline colour interpolation using Python and Blender. Originally, I wanted to implement a bump map for the creature to explode at the end but ran out of time. This project was a bit painful."}];
+  description: "2024. My final project for Computer Graphics. I implented a loop division algorithm and b-spline colour interpolation using Python and Blender. Originally, I wanted to implement a bump map for the creature to explode at the end but ran out of time. This project was a bit painful."},
+  {src: "/Renders/froggy_chair2.gif", description: "2022. Start of trying out rotating animations."},
+  {src: "/Renders/oranges.png", description: "2023. Experimenting with low-poly styles. This was before I figured out how to make my colours look better."},
+  {src: "/Renders/roomFront.png", description: "2023. Originally made to experiment with ThreeJS. "},
+  {src: "/Renders/pochita.gif", description: "2023. Also before I figured out how to make colours look better. I have a better render of this somewhere but I can't find it right now..."}];
 
   let currentRender = $state(null);
     
@@ -53,6 +57,10 @@
     return src.endsWith(".gif");
   }
 
+  function isImage(src) {
+  return src.endsWith(".png") || src.endsWith(".jpg") || src.endsWith(".jpeg");
+}
+
   let projects = $state([
     {
       id: 1,
@@ -69,6 +77,15 @@
       description: "Low-stake forays into the world of 3D modelling and animations with Blender. Click to see a random Blender model.",
       tags: ["Blender", "3D", "Animation"],
       date: "Various",
+      expanded: false
+    },
+    {
+      id: 3,
+      title: "API Playground",
+      description: "Ongoing explorations of various APIs.",
+      tags: ["API", "TypeScript"],
+      date: "March 2026",
+      link: "/playground",
       expanded: false
     },
   ]);
@@ -152,7 +169,7 @@
 
         {#if currentRender}
           <div id="render-display" class="mt-3">
-            {#if isGif(currentRender.src)}
+            {#if isGif(currentRender.src) || isImage(currentRender.src)}
               <img src={currentRender.src} alt="Blender render" class="max-h-[60vh] w-auto rounded-md mb-2" />
             {:else}
               <video autoplay muted loop playsinline class="max-h-[60vh] w-auto rounded-md mb-2">

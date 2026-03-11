@@ -96,7 +96,7 @@
 -->
 {#if showBio}
   <section class="bio-section">
-    <h2 class="font-mono text-white">A Little About Me</h2>
+    <h2 class="font-mono text-red-800">It's me!</h2>
     <p>
       <!-- CUSTOMIZE: Write 2-3 sentences about yourself -->
       I'm a student at the University of Chicago studying Digital Humanities.
@@ -107,7 +107,7 @@
 {/if}
 
 <section class="quick-links">
-  <h2 class="text-center">Explore</h2>
+  <!-- <h2 class="text-center">Explore</h2> -->
   <div class="card-row">
     <!--
       These are simple "cards" linking to your other pages.
@@ -116,7 +116,7 @@
     -->
     <a href="/about" class="card">
       <h3>About Me</h3>
-      <p>My background, interests, and goals.</p>
+      <p>Some information about myself.</p>
     </a>
     <a href="/projects" class="card">
       <h3>Projects</h3>
@@ -153,7 +153,8 @@
   }
 
   .tagline {
-    color: #d6d6d6;
+    /* color: #d6d6d6; */
+    color: white;
     font-weight: bolder;
     font-family:'Courier New', Courier, monospace;
     margin-bottom: 1.5rem;
@@ -176,11 +177,11 @@
 
   /* Bio section — appears when showBio is true */
   .bio-section {
-    background-color: #4E4FEB;
+    background-color: white;
     padding: 1.5rem 2rem;
     border-radius: 6px;
     margin: 1.5rem 0;
-    border-left: 4px solid #068FFF;
+    border-left: 4px solid #0f3076;
   }
 
   .bio-section h2 {

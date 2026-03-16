@@ -24,7 +24,7 @@
         try {
             await new Promise(resolve => setTimeout(resolve, 1000));
             let category = getRandomCategory();
-            // thanks corsproxy.io
+            // corsproxy didn't work anymore after vercel deployment, so I asked claude what to do and it helped me make my own API route in src/routes/api/eightball/+server.ts 
             //const url = `https://corsproxy.io/?https://eightballapi.com/api/${category}?question=${question}`; // 
             const url = `/api/eightball?category=${category}&question=${encodeURIComponent(question)}`;
             const response = await fetch(url);
@@ -39,7 +39,11 @@
         shaking = false;
     }
     
-
+  function handleEnter(event) {
+    if (event.key == 'Enter') {
+        ask8ball();
+    }
+  }
 </script>
 
 <!-- Title -->
@@ -75,7 +79,7 @@
 
 <!-- Get your own Fortune Input and Button  -->
 <div class="flex justify-center gap-2 mt-6">
-  <Input aria-label="Ask the ball" bind:value={question} placeholder="What's my fortune..." class="w-64" />
+  <Input aria-label="Ask the ball" bind:value={question} placeholder="What's my fortune..." onclick={handleEnter}class="w-64" />
   <Button onclick={ask8ball}>Ask!</Button>
 </div>
 

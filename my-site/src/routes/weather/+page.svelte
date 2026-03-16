@@ -107,8 +107,8 @@ async function searchCity() {
 
 function handleEnter(event) {
     if (event.key == 'Enter') {
-        console.log('NETERED');
-        searchCity;
+        console.log('ENTERED');
+        searchCity();
     }
 }
 </script>
@@ -144,7 +144,7 @@ function handleEnter(event) {
 
 {#if weather}
     <div class="flex gap-2 mb-4">
-        <Input type='text' placeholder="Enter a city..." bind:value={city} on:keydown={handleEnter}/>
+        <Input type='text' placeholder="Enter a city..." bind:value={city} onkeydown={handleEnter}/>
         <Button onclick={searchCity}>Search</Button>
     </div>
     {#if errorMsg}<p class="text-red-500 mt-2">{errorMsg}</p>{/if}

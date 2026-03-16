@@ -79,7 +79,7 @@
 
 <!-- Get your own Fortune Input and Button  -->
 <div class="flex justify-center gap-2 mt-6">
-  <Input aria-label="Ask the ball" bind:value={question} placeholder="What's my fortune..." onclick={handleEnter}class="w-64" />
+  <Input aria-label="Ask the ball" bind:value={question} placeholder="What's my fortune..." onkeydown={handleEnter} class="w-64" />
   <Button onclick={ask8ball}>Ask!</Button>
 </div>
 
